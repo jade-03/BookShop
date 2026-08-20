@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:9.1
+    container_name: app_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: bookshop
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app_network
+
+  backend:
+    build: ./backend
+    container_name: app_backend
+    restart: always
+    working_dir: /var/www/symfony
+    command: php -S 0.0.0.0:8000 -t public
+    environment:
+      DATABASE_URL: "mysql://root:root@db:3306/bookshop"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/var/www/symfony
+    networks:
+      - app_network
+
+  frontend:
+    build: ./frontend
+    container_name: app_frontend
+    restart: always
+    ports:
+      - "8080:80"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
