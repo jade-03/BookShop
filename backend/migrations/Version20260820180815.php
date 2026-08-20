@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20260816124837 extends AbstractMigration
+final class Version20260820180815 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,12 +24,10 @@ final class Version20260816124837 extends AbstractMigration
         $this->addSql('ALTER TABLE book_author ADD CONSTRAINT FK_9478D345F675F31B FOREIGN KEY (author_id) REFERENCES author (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE favorite ADD CONSTRAINT FK_68C58ED9A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE favorite ADD CONSTRAINT FK_68C58ED9D4619D1A FOREIGN KEY (listing_id) REFERENCES listing (id)');
-        $this->addSql('ALTER TABLE listing ADD category_id INT NOT NULL');
         $this->addSql('ALTER TABLE listing ADD CONSTRAINT FK_CB0048D416A2B381 FOREIGN KEY (book_id) REFERENCES book (id)');
         $this->addSql('ALTER TABLE listing ADD CONSTRAINT FK_CB0048D4A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE listing ADD CONSTRAINT FK_CB0048D4AA17481D FOREIGN KEY (favorite_id) REFERENCES favorite (id)');
         $this->addSql('ALTER TABLE listing ADD CONSTRAINT FK_CB0048D412469DE2 FOREIGN KEY (category_id) REFERENCES category (id)');
-        $this->addSql('CREATE INDEX IDX_CB0048D412469DE2 ON listing (category_id)');
         $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307FF624B39D FOREIGN KEY (sender_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE message ADD CONSTRAINT FK_B6BD307FCD53EDB6 FOREIGN KEY (receiver_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE `order` ADD CONSTRAINT FK_F5299398A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
@@ -50,8 +48,6 @@ final class Version20260816124837 extends AbstractMigration
         $this->addSql('ALTER TABLE listing DROP FOREIGN KEY FK_CB0048D4A76ED395');
         $this->addSql('ALTER TABLE listing DROP FOREIGN KEY FK_CB0048D4AA17481D');
         $this->addSql('ALTER TABLE listing DROP FOREIGN KEY FK_CB0048D412469DE2');
-        $this->addSql('DROP INDEX IDX_CB0048D412469DE2 ON listing');
-        $this->addSql('ALTER TABLE listing DROP category_id');
         $this->addSql('ALTER TABLE message DROP FOREIGN KEY FK_B6BD307FF624B39D');
         $this->addSql('ALTER TABLE message DROP FOREIGN KEY FK_B6BD307FCD53EDB6');
         $this->addSql('ALTER TABLE `order` DROP FOREIGN KEY FK_F5299398A76ED395');
