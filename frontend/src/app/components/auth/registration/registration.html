@@ -38,7 +38,7 @@
                 <i class="bi bi-person text-muted"></i>
               </span>
               <input type="text" [formField]="registerForm.lastname" class="form-control border-start-0 ps-0"
-                id="lastname" placeholder="Dupont">
+                id="lastname">
             </div>
             @if (registerForm.lastname().invalid() && registerForm.lastname().touched()) {
             <div class="error">
@@ -58,7 +58,7 @@
                 <i class="bi bi-person-badge text-muted"></i>
               </span>
               <input type="text" [formField]="registerForm.firstname" class="form-control border-start-0 ps-0"
-                id="firstname" placeholder="Marie">
+                id="firstname">
             </div>
             @if (registerForm.firstname().invalid() && registerForm.firstname().touched()) {
             <div class="error">
@@ -97,8 +97,7 @@
               <span class="input-group-text bg-light border-end-0">
                 <i class="bi bi-envelope text-muted"></i>
               </span>
-              <input type="email" [formField]="registerForm.email" class="form-control border-start-0 ps-0" id="email"
-                placeholder="marie.dupont@email.com">
+              <input type="email" [formField]="registerForm.email" class="form-control border-start-0 ps-0" id="email">
             </div>
             @if (registerForm.email().invalid() && registerForm.email().touched()) {
             <div class="error">

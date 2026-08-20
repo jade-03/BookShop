@@ -16,7 +16,7 @@ import { Payement } from './components/payement/payement';
 import { LoginAdmin } from './components/auth/login-admin/login-admin';
 
 export const routes: Routes = [
-  { path: 'bookshop', redirectTo: 'catalogue', pathMatch: 'full' },
+  { path: '', redirectTo: 'catalogue', pathMatch: 'full' },
   { path: 'catalogue', component: Catalogue },
   { path: 'newbook', component: NewBook },
   { path: 'login', component: Login },
@@ -36,7 +36,7 @@ export const routes: Routes = [
     ],
   },
   { path: 'annonces', component: Annonces },
-  { path: '', redirectTo: 'login-admin', pathMatch: 'full' },
+  { path: 'administration', redirectTo: 'login-admin', pathMatch: 'full' },
   { path: 'login-admin', component: LoginAdmin },
   { path: 'admin', component: PageAdmin, canActivate: [adminGuard] },
   { path: 'annonce/:id/payement', component: Payement },

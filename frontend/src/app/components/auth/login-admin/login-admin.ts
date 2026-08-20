@@ -16,6 +16,7 @@ export class LoginAdmin {
 
   alert = signal<Alert | null>(null);
   messageAlert = signal<string | null>(null);
+  showPassword = false;
 
   showAlert(message: string, type: Alert, timeout = 3000) {
     this.messageAlert.set(message);
@@ -66,6 +67,10 @@ export class LoginAdmin {
         },
       });
     });
+  }
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
   }
 
   handleBackendError(err: any) {

@@ -1,3 +1,5 @@
+import { Listing } from "./listing"
+
 export interface User {
   id:number
   lastname: string
@@ -8,6 +10,7 @@ export interface User {
   password: string
   picture_profil: string
   createdAt:Date
+  listing: Listing
 }
 
 export interface NewUser {

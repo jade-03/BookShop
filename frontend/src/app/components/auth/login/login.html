@@ -32,7 +32,7 @@
                 <i class="bi bi-envelope text-muted"></i>
               </span>
               <input type="email" id="username" class="form-control border-start-0 ps-0"
-                [formField]="loginForm.username" placeholder="exemple@email.com" autofocus>
+                [formField]="loginForm.username" autofocus>
               @if (loginForm.username().invalid() && loginForm.username().touched()) {
               <div class="error">
                 @for (error of loginForm.username().errors(); track error.kind) {

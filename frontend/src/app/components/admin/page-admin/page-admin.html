@@ -221,11 +221,10 @@
                   <td>{{ user.email }}</td>
                   <td>
                     @if (user.role) {
-                    <span class="badge bg-danger">Admin</span>
-                    } @else {
                     <span class="badge bg-primary">Utilisateur</span>
                     }
                   </td>
+                  <td>{{user.listing.title}}</td>
                   <td>{{ user.createdAt || user.createdAt | date:'dd/MM/yyyy' }}</td>
                   <td>
                   </td>
