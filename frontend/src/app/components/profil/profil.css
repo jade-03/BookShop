@@ -1,0 +1,137 @@
+
+.bg-background {
+            background-color: var(--background);
+        }
+
+        .bg-card {
+            background-color: var(--card-bg);
+        }
+
+        .text-primary {
+            color: var(--primary) !important;
+        }
+
+        .bg-primary-light {
+            background-color: var(--primary-light);
+        }
+
+        .text-muted-foreground {
+            color: var(--muted-foreground) !important;
+        }
+
+        .border-border {
+            border-color: var(--border) !important;
+        }
+
+        .text-destructive {
+            color: var(--destructive) !important;
+        }
+
+        .hover-bg-muted:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Cards personnalisées */
+        .custom-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .custom-card:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        /* Avatar */
+        .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .avatar span {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        @media (min-width: 992px) {
+            .avatar {
+                width: 128px;
+                height: 128px;
+            }
+            .avatar span {
+                font-size: 3rem;
+            }
+        }
+
+        /* Bouton déconnexion */
+        .btn-logout {
+            border: 1px solid var(--destructive);
+            color: var(--destructive);
+            background: transparent;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: var(--destructive);
+            color: white;
+        }
+
+        /* Separator */
+        .custom-separator {
+            height: 1px;
+            background-color: var(--border);
+            margin: 2rem 0;
+        }
+
+        /* Sticky header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Étoiles pour la note */
+        .star-icon {
+            color: #ffc107;
+            fill: #ffc107;
+        }
+
+        /* Container responsive */
+        .custom-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 992px) {
+            .custom-container {
+                padding: 0 2rem;
+            }
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Animation hover */
+        .menu-arrow {
+            transition: transform 0.2s;
+        }
+
+        .custom-card:hover .menu-arrow {
+            transform: translateX(4px);
+        }

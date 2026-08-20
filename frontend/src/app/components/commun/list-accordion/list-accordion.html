@@ -1,0 +1,29 @@
+<!-- <div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ target()" aria-expanded="true" aria-controls="{{target()}}">
+        {{titre()}}
+      </button>
+    </h2>
+    <div id="{{target()}}" class="accordion-collapse collapse show">
+      <div class="accordion-body">
+        <ng-content></ng-content>
+    </div>
+  </div>
+</div> -->
+<div class="accordion-filtre" style="border: 1.5px solid #ebebeb; width: 100%;">
+  <div class="accordion-filtre-item">
+     <button 
+      class="accordion-filtre-header" 
+      type="button" 
+      (click)="toggleAccordion()"
+      [class.collapsed]="!isOpen()">
+      <span class="accordion-filtre-title">{{ titre() }}</span>
+      <i class="bi" [class.bi-chevron-down]="!isOpen()" [class.bi-chevron-up]="isOpen()"></i>
+    </button>
+    <div class="accordion-filtre-body" [class.show]="isOpen()">
+      <div class="accordion-filtre-content">
+        <ng-content></ng-content>
+      </div>
+  </div>
+</div>

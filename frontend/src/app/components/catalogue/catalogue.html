@@ -1,0 +1,77 @@
+<div class="page-wrapper">
+  <div class="container-header">
+    <div class="search-section">
+      <div class="search-group">
+        <i class="bi bi-search"></i>
+        <input type="search" id="search" name="search" #search placeholder="Rechercher un livre ou un auteur..."
+          autofocus>
+        <button class="btn-primary" (click)="onSearch(search.value)">
+          Rechercher
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <app-list-accordion titre="Filtres" target="collapseOne">
+        <div class="filters-wrapper">
+          <div class="filter-group">
+            <p class="filter-label">Catégorie</p>
+            <div class="filter-buttons">
+              <button class="filter-btn" [class.active]="selectCategory() === 'Tous'" (click)="filterBtn('Tous')">
+                Tous
+              </button>
+              @for (categorie of categories(); track categorie.id) {
+              <button class="filter-btn" [class.active]="selectCategory() === categorie.name"
+                (click)="filterBtn(categorie.name)">
+                {{ categorie.name }}
+              </button>
+              }
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <p class="filter-label">Auteur</p>
+            <div class="authors-list">
+              @for (auteur of authors(); track auteur.id ?? $index) {
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [id]="'auteur-' + auteur.id"
+                  [checked]="selectAuteur().includes(auteur.name)" (change)="onChangeChckBox(auteur.name, $event)">
+                <label class="form-check-label" [for]="'auteur-' + auteur.id">
+                  {{ auteur.name }}
+                </label>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+      </app-list-accordion>
+    </div>
+
+  </div>
+
+  <div class="main-container">
+    <h2 class="result-count">
+      {{ filtreListing().length }} résultat{{ filtreListing().length > 1 ? 's' : '' }}
+    </h2>
+
+    @if (filtreListing().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">
+        <i class="bi bi-search"></i>
+      </div>
+      <h3 class="empty-title">Aucun livre trouvé</h3>
+      <p class="empty-message">
+        Essayez d'autres mots-clés ou filtres
+      </p>
+    </div>
+    } @else {
+    <div class="books-grid">
+      @for (listing of filtreListing(); track listing.id ?? $index) {
+      <div class="book-card-item">
+        <app-card-book [listingCard]="listing"></app-card-book>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,150 @@
+<div class="min-vh-100 bg-background pb-5">
+  <div class="content-wrapper">
+
+    <!-- ✅ État de chargement -->
+    @if(loading()) {
+    <div class="text-center p-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Chargement...</span>
+      </div>
+    </div>
+    }
+
+    <!-- ✅ Message d'erreur -->
+    @if(error()) {
+    <div class="alert alert-danger m-3 m-lg-4">
+      {{ error() }}
+    </div>
+    }
+
+    <!-- ✅ Affichage du profil -->
+    @if(!loading() && !error() && usersProfil()) {
+
+    <!-- Profile Card -->
+    <div class="card m-3 m-lg-4 p-3 p-lg-4 shadow-sm border-0 rounded-4">
+      <div class="card-body p-3 p-lg-4 text-center">
+
+        <!-- ✅ Badge "C'est vous" -->
+        @if(isOwnProfile()) {
+        <div class="badge bg-success mb-3">
+          <i class="bi bi-person-check"></i> Votre profil
+        </div>
+        }
+
+        <!-- Avatar avec initiales -->
+        <div class="avatar mx-auto">
+          <span>{{ getInitials() }}</span>
+        </div>
+
+        <!-- Name -->
+        <h2 class="fs-4 fs-lg-2 mb-2">{{ usersProfil()?.pseudo }}</h2>
+
+        <!-- ⚠️ Email : visible UNIQUEMENT si c'est son propre profil -->
+        @if(isOwnProfile() && usersProfil()?.email) {
+        <p class="text-muted small mb-4">
+          <i class="bi bi-envelope"></i> {{ usersProfil()?.email }}
+        </p>
+        } @else {
+        <p class="text-muted small mb-4">{{ usersProfil()?.firstname }} {{ usersProfil()?.lastname }}</p>
+        }
+        <div class="alert alert-info">
+          <strong>Debug :</strong>
+          <pre>role = "{{ usersProfil()?.role }}"</pre>
+          <pre>Longueur : {{ usersProfil()?.role?.length }}</pre>
+          <pre>Type : {{ typeof usersProfil()?.role }}</pre>
+          <pre>Comparaison : {{ usersProfil()?.role === 'ROLE_ADMIN' }}</pre>
+          <p>Role : {{ usersProfil()?.role }}</p>
+        </div>
+
+        @if (isNotAdmin()) {
+        <!-- Stats -->
+        <div class="row g-3 pt-3 border-top border-border">
+          <div class="col-4">
+            <div class="text-center">
+              <div class="fs-3 fw-semibold text-primary">12</div>
+              <div class="small text-muted-foreground">Annonces</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="text-center">
+              <div class="fs-3 fw-semibold text-primary">28</div>
+              <div class="small text-muted-foreground">Ventes</div>
+            </div>
+          </div>
+        </div>
+        }
+
+
+      </div>
+    </div>
+
+    <!-- ✅ Menu items (visible seulement sur SON propre profil) -->
+    @if(isOwnProfile()) {
+    <div class="px-3 px-lg-4">
+      <!-- Item 1 : Mes annonces -->
+      <div class="custom-card mb-2 mb-lg-3" routerLink="/annonces">
+        <div class="p-3 p-lg-4 d-flex align-items-center gap-3">
+          <div class="bg-primary-light rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-book text-primary fs-5"></i>
+          </div>
+          <span class="flex-grow-1 fs-6 fs-lg-5">Mes annonces</span>
+          <i class="bi bi-chevron-right text-muted-foreground menu-arrow"></i>
+        </div>
+      </div>
+
+      <!-- Item 2 : Messages -->
+      <div class="custom-card mb-2 mb-lg-3" routerLink="/messageries">
+        <div class="p-3 p-lg-4 d-flex align-items-center gap-3">
+          <div class="bg-primary-light rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-chat-dots text-primary fs-5"></i>
+          </div>
+          <span class="flex-grow-1 fs-6 fs-lg-5">Messages</span>
+          <i class="bi bi-chevron-right text-muted-foreground menu-arrow"></i>
+        </div>
+      </div>
+
+      <!-- Item 3 : Paramètres -->
+      <div class="custom-card mb-2 mb-lg-3">
+        <div class="p-3 p-lg-4 d-flex align-items-center gap-3">
+          <div class="bg-primary-light rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-gear text-primary fs-5"></i>
+          </div>
+          <span class="flex-grow-1 fs-6 fs-lg-5">Paramètres</span>
+          <i class="bi bi-chevron-right text-muted-foreground menu-arrow"></i>
+        </div>
+      </div>
+
+      <!-- Item 4 : Favoris -->
+      <div class="custom-card mb-2 mb-lg-3">
+        <div class="p-3 p-lg-4 d-flex align-items-center gap-3">
+          <div class="bg-primary-light rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-heart text-primary fs-5"></i>
+          </div>
+          <span class="flex-grow-1 fs-6 fs-lg-5">Favoris</span>
+          <i class="bi bi-chevron-right text-muted-foreground menu-arrow"></i>
+        </div>
+      </div>
+
+      <!-- Item 5 : Historique d'achats -->
+      <div class="custom-card mb-2 mb-lg-3">
+        <div class="p-3 p-lg-4 d-flex align-items-center gap-3">
+          <div class="bg-primary-light rounded-circle d-flex align-items-center justify-content-center"
+            style="width: 48px; height: 48px;">
+            <i class="bi bi-clock-history text-primary fs-5"></i>
+          </div>
+          <span class="flex-grow-1 fs-6 fs-lg-5">Historique d'achats</span>
+          <i class="bi bi-chevron-right text-muted-foreground menu-arrow"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Separator -->
+    <div class="custom-separator mx-3 mx-lg-4"></div>
+    }
+    }
+  </div>
+</div>

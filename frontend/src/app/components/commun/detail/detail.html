@@ -1,0 +1,100 @@
+<section class="card-detail">
+    <div class="card-book">
+        <div class="card-body">
+            @if (listing(); as listing ) {
+            <!-- Couverture -->
+            <div class="cover-wrapper">
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="cover">
+                                <img [src]="listing.picture.frontCover" alt="listing">
+                            </div>
+
+
+                        </div>
+                        <div class="carousel-item">
+                            <div class="cover">
+                                <img [src]="listing.picture.backCover" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Infos livre -->
+            <div class="infos-wrapper">
+                <h1 class="title">{{listing.title}}</h1>
+                <p class="author">
+                    @for (author of listing.book.author; track $index; let last = $last) {
+                    {{author.name}}@if(!last){,}
+                    }
+                </p>
+                <div class="detail-line">
+                    <span class="detail-label">ISBN</span>
+                    <span class="detail-value">{{listing.book.isbn}}</span>
+                </div>
+
+                <div class="detail-line">
+                    <span class="detail-label">État</span>
+                    <span class="detail-value">
+                        <span class="badge-condition">{{listing.book_condition}}</span>
+                    </span>
+                </div>
+
+                <div class="price ">{{listing.price}}€</div>
+
+                <div class="separator"></div>
+
+                <!-- Carte vendeur -->
+                @if (listing.user.id !== currentUser()) {
+                    <div class="seller-card">
+                    <div class="seller-left">
+                        <div class="avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="seller-name">{{listing.user.pseudo}}</div>
+                    </div>
+                    <button [routerLink]="['/profil', listing.user.id]">Profil</button>
+                </div>
+                <div class="actions">
+                    <button class="btn contact" [routerLink]="['/messageries/message/', listing.user.id]" (click)="onCreate()">
+                        Contacter
+                    </button>
+                    <button class="btn btn-primary">
+                        Acheter
+                    </button>
+                </div>
+                }@else {
+                    <div class="seller-card">
+                    <div class="seller-left">
+                        <div class="avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="seller-name">{{listing.user.pseudo}}</div>
+                    </div>
+                    <button routerLink="/profil">Mon profil</button>
+                </div>
+                }
+            </div>
+            }
+        </div>
+
+        @for (item of divs; track item) {
+  <div class="ma-div">
+    Div numéro {{ item }}
+  </div>
+}
+    </div>
+</section>

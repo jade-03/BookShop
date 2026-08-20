@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2c5aa0;
+  --primary-light: #5998df44;
+  --muted-foreground: #6c757d;
+  --border: #dee2e6;
+  --destructive: #dc3545;
+  --background: #f8f9fa;
+  --card-bg: #ffffff;
+  --muted: #6c757d;
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  
+}
+
+html,
+body {
+  height: 100vh;
+  overflow-x: hidden;
+  flex-direction: column;
+  background-color: #F4F4F4;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+.error{
+  color: #dc3545;
+}
+
+.bi-asterisk{
+  color: red;
+}
+
+app-parametres {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}

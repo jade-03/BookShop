@@ -1,0 +1,109 @@
+.card{
+  font-family: "Noto Serif", serif;
+}
+.book-card {
+  background: white;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 12px;
+}
+
+.card-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-author{
+  font-size: 13px;
+  color: #6c757d;
+} 
+
+.card-text {
+  font-size: 12px;
+  color: #6c757d;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.icon-favori{
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 24px;
+  color: black;
+}
+
+.bi-bookmark-heart-fill{
+  color: red  ;
+}
+
+.condition-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 20px;
+  color: white;
+}
+
+.unused{
+  background-color: rgb(0, 60, 128);
+}
+
+.verygood{
+  background-color: green;
+}
+
+.good{
+  background-color:rgb(227, 147, 8) ;
+}
+
+@media (min-width: 768px) {
+  .card-body {
+    padding: 16px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+  }
+  
+  .card-text {
+    font-size: 14px;
+  }
+  
+  .price {
+    font-size: 16px;
+  }
+}

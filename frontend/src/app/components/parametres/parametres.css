@@ -1,0 +1,24 @@
+
+
+.container{
+    margin: 15px 0;
+    padding: 0;
+    display: flex;
+    height: 100%;
+    border: 1px solid #f7f7f7;
+}
+
+.nav-bar{
+    margin: 0;
+    padding: 10px;
+    width: 200px;
+    height: 100%;
+    background-color: #e6ecff;
+    border-radius: 0 15px 15px 0; 
+}
+
+span{
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(158, 158, 158);
+}

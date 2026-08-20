@@ -1,0 +1,89 @@
+<div class="chat-wrapper">
+    <div class="message-container">
+        <span class="date">{{ today | date:'EEEE d MMM yyyy' }}</span>
+        @for (mess of messages(); track mess.send_at) {
+        <div class="message" [class.sent]="mess.sender.id === currentUserId()"
+            [class.received]="mess.receiver.id === currentUserId()">
+            <app-card-message [cardMessage]="mess"></app-card-message>
+        </div>
+        }
+    </div>
+    <div class="message-form">
+
+        <input #messageInput type="text" placeholder="Votre message..." width="100%"
+            (keyup.enter)="sendMessage(messageInput.value); messageInput.value=''">
+
+        <button (click)="sendMessage(messageInput.value); messageInput.value=''">
+            Envoyer
+        </button>
+
+    </div>
+</div>
+
+
+
+<!-- <div class="chat-wrapper">
+
+    @if(loading()) {
+
+        <div class="loading">
+            Chargement...
+        </div>
+
+    } @else {
+
+        <div class="chat-header">
+            <h2>Conversation</h2>
+        </div>
+
+        <div
+            class="messages-container"
+            #messagesContainer
+        >
+
+            @for(message of messages(); track message.id) {
+
+                <div
+                    class="message-row"
+                    [class.mine]="isMyMessage(message)"
+                >
+
+                    <div class="message-bubble">
+
+                        <div class="content">
+                            {{ message.content }}
+                        </div>
+
+                        <small>
+                            {{ message.sendAt | date:'dd/MM HH:mm' }}
+                        </small>
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+        <div class="message-form">
+
+            <input
+                #messageInput
+                type="text"
+                placeholder="Votre message..."
+                width="100%"
+                (keyup.enter)="sendMessage(messageInput.value); messageInput.value=''"
+            >
+
+            <button
+                (click)="sendMessage(messageInput.value); messageInput.value=''"
+            >
+                Envoyer
+            </button>
+
+        </div>
+
+    }
+
+</div> -->

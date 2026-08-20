@@ -1,0 +1,20 @@
+<div class="card book-card" [routerLink]="['/listing', listingCard().id]">
+  <div class="position-relative">
+    @if (listingCard().picture) {
+      <img 
+      [src]="listingCard().picture.frontCover "
+      [alt]="listingCard().title" 
+      class="card-img-top" 
+      style="object-fit: cover;" />
+    }
+    <span class="icon-favori" (click)="switchIcon($event)"><i class="bi bi-bookmark-heart{{icon()}}"></i></span>
+    <span class="position-absolute top-0 end-0 m-2 badge condition-badge" [class.unused]="listingCard().book_condition === BookCondition.Unused" [class.verygood]="listingCard().book_condition === BookCondition.Very_Good" [class.good]="listingCard().book_condition === BookCondition.Good">
+      {{ConditionLabels[listingCard().book_condition]}}
+    </span>
+  </div>
+  <div class="card-body p-3">
+    <h4 class="card-title" style="text-align: center;">{{ listingCard().title }}</h4>
+    <p class="text-author" style="font-size: 1Opx!important;">{{ getDisplayAuthor() }}</p>
+    <p class=" price">{{ listingCard().price}}€</p>
+  </div>
+</div>

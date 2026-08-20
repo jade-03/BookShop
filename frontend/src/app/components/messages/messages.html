@@ -1,0 +1,38 @@
+<section class="messageries">
+    <div class="container">
+
+        <h2>Mes conversations</h2>
+        <div class="conversation-list">
+
+            @for(conv of discussions(); track conv.user) {
+
+            <div class="conversation-card" [routerLink]="['/messageries/message/', conv.user.id]">
+
+
+                <div class="avatar">
+                    {{ getInitials(conv.user.pseudo) }}
+                </div>
+
+                <div class="conversation-content">
+
+                    <div class="header">
+                        <strong>{{ conv.user.pseudo }}</strong>
+                    </div>
+
+                    <p class="message-preview">
+                        {{ conv.lastMessage }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+    <div class="conversation">
+        <router-outlet />
+    </div>
+</section>

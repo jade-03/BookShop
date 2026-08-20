@@ -1,0 +1,50 @@
+@if (!isLoginPage()) {
+  <nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <h2><span class="book">Book</span><span class="shop">Shop</span></h2>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item justify-content-center">
+          <a class="nav-link" aria-current="page" routerLink="/catalogue" routerLinkActive="active">Catalogue</a>
+        </li>
+        @if (!authService.isConnected()) {
+          <li class="nav-item">
+          <a class=" nav-link" routerLink="/login">Vendre un livre</a>
+        </li>
+        }@else {
+          <li class="nav-item">
+          <a class=" nav-link" routerLink="/newbook" routerLinkActive="active">Vendre un livre</a>
+        </li>
+        }
+        
+        @if (!authService.isConnected()) {
+        <li class="nav-item">
+          <a class="btn" style="margin-left: 10px;" routerLink="/login">Connexion</a>
+        </li>
+        }
+      </ul>
+      @if (authService.isConnected()) {
+      <div class="dropdown">
+        <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle" style="font-size: 30px;"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" routerLink="/profil">Mon profil</a></li>
+          <li><a class="dropdown-item" routerLink="/messageries">Messagerie</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item text-danger" (click)="logout()"><strong>Se déconnecter</strong></button></li>
+        </ul>
+      </div>
+      }
+
+    </div>
+  </div>
+</nav>
+}
+
+
+<router-outlet></router-outlet>

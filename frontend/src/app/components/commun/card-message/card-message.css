@@ -1,0 +1,15 @@
+.card{
+  width:max-content;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background-color: white;
+}
+
+p{
+    margin: 0;
+}
+
+.date{
+    font-size: 13px;
+    text-align: end;
+}

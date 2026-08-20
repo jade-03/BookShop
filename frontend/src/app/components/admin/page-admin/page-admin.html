@@ -1,0 +1,431 @@
+<section class="d-flex flex-column align-items-center">
+  <div class="admin-dashboard">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+      <h1 class="h3 mb-0">
+        <i class="bi bi-shop me-2"></i>
+        Administration - Marketplace Livres d'occasion
+      </h1>
+      <div class="text-muted">
+        <i class="bi bi-calendar3 me-1"></i>
+        {{ today | date:'EEEE dd MMMM yyyy' }}
+      </div>
+    </div>
+
+    <!-- Statistiques Marketplace -->
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-lg-3">
+        <div class="stats-card stats-primary">
+          <div class="stats-icon"><i class="bi bi-book"></i></div>
+          <div class="stats-info">
+            <h3>{{ totalListings() }}</h3>
+            <span>Annonces totales</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3">
+        <div class="stats-card stats-warning">
+          <div class="stats-icon"><i class="bi bi-clock-history"></i></div>
+          <div class="stats-info">
+            <h3>{{ pendingListings() }}</h3>
+            <span>En attente de validation</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3">
+        <div class="stats-card stats-success">
+          <div class="stats-icon"><i class="bi bi-people"></i></div>
+          <div class="stats-info">
+            <h3>{{ activeSellers() }}</h3>
+            <span>Vendeurs actifs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3">
+        <div class="stats-card stats-info">
+          <div class="stats-icon"><i class="bi bi-cash-stack"></i></div>
+          <div class="stats-info">
+            <h3>{{ totalRevenue() }}€</h3>
+            <span>Chiffre d'affaires</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Onglets -->
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-transparent border-0 pt-3">
+        <ul class="nav nav-tabs px-3" id="adminTab" role="tablist">
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="activeTab() === 'listings'" (click)="activeTab.set('listings')">
+              <i class="bi bi-grid-3x3-gap-fill me-1"></i>
+              Annonces
+              <span class="badge bg-warning ms-1">{{ pendingListings() }}</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="activeTab() === 'users'" (click)="activeTab.set('users')">
+              <i class="bi bi-people-fill me-1"></i>
+              Utilisateurs
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="activeTab() === 'books'" (click)="activeTab.set('books')">
+              <i class="bi bi-receipt me-1"></i>
+              Livres
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="activeTab() === 'authors'" (click)="activeTab.set('authors')">
+              <i class="bi bi-receipt me-1"></i>
+              Auteurs
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="activeTab() === 'categories'"
+              (click)="activeTab.set('categories')">
+              <i class="bi bi-receipt me-1"></i>
+              Catégories
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-body p-0">
+        <!-- Onglet Annonces (Listings) -->
+        @if (activeTab() === 'listings') {
+        <div class="p-3">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher une annonce..."
+                  (ngModelChange)="filterTable()">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select" (ngModelChange)="filterTable()">
+                <option value="all">Tous les statuts</option>
+                <option value="for_sale">En vente</option>
+                <option value="sold">Vendu</option>
+                <option value="reserved">Réservé</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Titre</th>
+                  <th>Vendeur</th>
+                  <th>Prix</th>
+                  <th>État</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (listing of getPaginatedListings(); track listing.id) {
+                <tr>
+                  <td>{{ listing.id }}</td>
+                  <td>{{ listing.title }}</td>
+                  <td>{{ listing.user.pseudo }}</td>
+                  <td class="fw-bold">{{ listing.price }}€</td>
+                  <td>
+                    <span class="badge {{ getConditionBadge(listing.book_condition) }}">
+                      {{ getConditionLabel(listing.book_condition) }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge {{ getStatusBadge(listing.statut) }}">
+                      {{ getStatusLabel(listing.statut) }}
+                    </span>
+                  </td>
+                  <td>
+                    @if (listing.statut === 'for_sale') {
+                    <div class="btn-group btn-group-sm">
+                      <button class="btn btn-success" (click)="approveListing(listing)" title="Approuver">
+                        <i class="bi bi-check-lg"></i>
+                      </button>
+                      <button class="btn btn-danger" (click)="rejectListing(listing)" title="Refuser">
+                        <i class="bi bi-x-lg"></i>
+                      </button>
+                    </div>
+                    }
+                    <button class="btn btn-sm btn-outline-secondary ms-1" (click)="viewListing(listing)"
+                      title="Voir détail">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <small class="text-muted">Total: {{ totalListings() }} annonces</small>
+            <nav>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" [class.disabled]="currentPage() === 1">
+                  <button class="page-link" (click)="prevPage()"><i class="bi bi-chevron-left"></i></button>
+                </li>
+                <li class="page-item active"><span class="page-link">{{ currentPage() }}</span></li>
+                <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+                  <button class="page-link" (click)="nextPage()"><i class="bi bi-chevron-right"></i></button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        }
+
+        <!-- Onglet Utilisateurs (Users) -->
+        @if (activeTab() === 'users') {
+        <div class="p-3">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher un utilisateur..."
+                  (ngModelChange)="filterUsers()">
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Pseudo</th>
+                  <th>Email</th>
+                  <th>Rôle</th>
+                  <th>Annonces</th>
+                  <th>Ventes</th>
+                  <th>Membre depuis</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (user of getPaginatedUsers(); track user.id) {
+                <tr>
+                  <td>{{ user.id }}</td>
+                  <td class="fw-bold">{{ user.pseudo }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>
+                    @if (user.role) {
+                    <span class="badge bg-danger">Admin</span>
+                    } @else {
+                    <span class="badge bg-primary">Utilisateur</span>
+                    }
+                  </td>
+                  <td>{{ user.createdAt || user.createdAt | date:'dd/MM/yyyy' }}</td>
+                  <td>
+                  </td>
+                  <td>
+
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
+
+        <!-- Onglet Livres (Books) -->
+        @if (activeTab() === 'books') {
+        <div class="p-3">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher un livre..."
+                  (ngModelChange)="filterBooks()">
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Titre</th>
+                  <th>ISBN</th>
+                  <th>Auteurs</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (book of getPaginatedBooks(); track book.id) {
+                <tr>
+                  <td>{{ book.id }}</td>
+                  <td class="fw-bold">{{ book.title }}</td>
+                  <td>{{ book.isbn }}</td>
+                  <td>
+                    @for (author of book.author; track author.id; let last = $last) {
+                    {{ author.name }}@if(!last){, }
+                    }
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="viewBook(book)">
+                      <i class="bi bi-eye"></i> Voir
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
+
+        <!-- Onglet Auteurs (Authors) -->
+        @if (activeTab() === 'authors') {
+        <div class="p-3">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher un auteur..."
+                  (ngModelChange)="filterAuthors()">
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Nom</th>
+                  <th>Biographie</th>
+                  <th>Livres</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (author of getPaginatedAuthors(); track author.id) {
+                <tr>
+                  <td>{{ author.id }}</td>
+                  <td class="fw-bold">{{ author.name }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="viewAuthor(author)">
+                      <i class="bi bi-eye"></i> Voir
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger ms-1" (click)="deleteAuthor(author)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                  <td><button class="btn btn-sm btn-outline-primary ms-1">Liste</button></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="editCategory(author)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger ms-1" (click)="deleteCategory(author)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
+
+        <!-- Onglet Catégories (Categories) -->
+        @if (activeTab() === 'categories') {
+        <div class="p-3">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" placeholder="Rechercher une catégorie..."
+                  (ngModelChange)="filterCategories()">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="addCategory()">
+                <i class="bi bi-plus-lg"></i> Nouvelle catégorie
+              </button>
+            </div>
+            <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" #modalCategory id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <!-- Alert Messages -->
+        @if (messageAlert()) {
+        <div class="alert alert-{{alert()}} d-flex align-items-center mb-4" role="alert">
+          <i class="bi bi-{{alert() === 'success' ? 'check-circle' : 'exclamation-triangle'}} me-2 fs-5"></i>
+          <div class="flex-grow-1">
+            {{messageAlert()}}
+          </div>
+        </div>
+        }
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="categoryForm" #categoryForm="ngForm"
+  (ngSubmit)="onSubmit(categoryForm)">
+          <label for="nomCategory">Nom de la catégorie</label>
+          <input type="text" name="name" id="nomCategory" ngModel>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="categoryForm" class="btn btn-primary">Créer</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Nom</th>
+                  <th>Description</th>
+                  <th>Livres associés</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (category of getPaginatedCategories(); track category.id) {
+                <tr>
+                  <td>{{ category.id }}</td>
+                  <td class="fw-bold">{{ category.name }}</td>
+
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary" (click)="editCategory(category)">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger ms-1" (click)="deleteCategory(category)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
