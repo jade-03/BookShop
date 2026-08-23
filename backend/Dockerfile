@@ -1,11 +1,9 @@
 FROM php:8.4-fpm
 
-RUN docker-php-ext-install pdo_pgsql
-
 # Variables
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Dépendances système
+# Dépendances système + extensions PHP
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -16,15 +14,18 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libonig-dev \
+    libpq-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
+        pdo_pgsql \
         intl \
         zip \
         gd \
         opcache \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
