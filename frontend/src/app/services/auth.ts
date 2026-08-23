@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { LoginUser } from '../interfaces/login-user';
 import { HttpClient } from '@angular/common/http';
 import { NewUser, User } from '../interfaces/user';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
@@ -33,10 +33,8 @@ export class Auth {
         withCredentials: true,
       })
       .pipe(
-        tap((response) => {
-          this.profile().subscribe();
-        }),
-      );
+      switchMap(() => this.profile())
+    );
   }
 
   register(registerUser: NewUser) {
@@ -48,10 +46,8 @@ export class Auth {
         withCredentials: true,
       })
       .pipe(
-        tap((response) => {
-          this.profile().subscribe();
-        }),
-      );
+      switchMap(() => this.profile())
+    );
   }
 
   profile() {

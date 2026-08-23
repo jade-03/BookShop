@@ -66,15 +66,18 @@ final class AuthController extends AbstractController
             'user' => $user,
             'JWT_TOKEN' => $token,
         ], Response::HTTP_CREATED, [], ['groups' => 'getUser']);
-    
-        $response->headers->setCookie(Cookie::create('JWT_TOKEN', $token)
-            ->withHttpOnly(true)
-            ->withPath('/')
-            ->withSameSite('lax')
+
+        $response->headers->setCookie(
+            Cookie::create('JWT_TOKEN', $token)
+                ->withHttpOnly(true)
+                ->withPath('/')
+                ->withSameSite('lax')
         );
-    
+
         return $response;
-        }
+    }
+
+
 
 
     #[Route('/register/admin', name: 'api_register_admin', methods: ['POST'])]

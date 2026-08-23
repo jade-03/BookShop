@@ -35,7 +35,7 @@ export class LoginAdmin {
   loginModel = signal<LoginAdminForm>({
     username: '',
     password: '',
-    role: ''
+    role: '',
   });
 
   loginForm = form(this.loginModel, (fieldPath) => {
@@ -56,7 +56,11 @@ export class LoginAdmin {
     submit(this.loginForm, async () => {
       const credentials = this.loginModel();
       this.authService.login(credentials).subscribe({
-        next: () => {
+        next: (user) => {
+          if (user.role !== 'ROLE_ADMIN') {
+            this.showAlert('Accès refusé : vous devez être administrateur.', 'danger', 5000);
+            return;
+          }
           this.showAlert('Connexion Réussie', 'success', 3000);
           setTimeout(() => {
             this.router.navigate(['/admin']);
