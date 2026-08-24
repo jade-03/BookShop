@@ -12,3 +12,8 @@ controllers:
 
 api_login_check:
     path: /api/login
+
+health_check:
+    path: /health
+    controller: App\Controller\HealthController::health
+    methods: [GET]
