@@ -7,7 +7,7 @@ lexik_jwt_authentication:
     set_cookies:
         JWT_TOKEN:  # ← Le cookie s'appellera JWT_TOKEN
             httpOnly: true
-            samesite: lax
+            samesite: none
             secure: true  # true en production avec HTTPS
             path: '/'
             lifetime: 3600
