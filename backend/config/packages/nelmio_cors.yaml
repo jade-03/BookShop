@@ -1,14 +1,14 @@
 nelmio_cors:
     defaults:
         
-        allow_origin: ['http://localhost:4200', 'http://localhost:8080']
+        allow_origin: ['http://localhost:4200', 'http://localhost:8080', 'https://bookshop-cer0.onrender.com']
         allow_headers: ['Content-Type', 'Authorization']
         allow_methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
         allow_credentials: true
         max_age: 36000
     paths:
         '^/api/':
-            allow_origin: ['http://localhost:4200', 'http://localhost:8080']
+            allow_origin: ['http://localhost:4200', 'http://localhost:8080', 'https://bookshop-cer0.onrender.com']
             allow_headers: ['Content-Type', 'Authorization', 'Cookie']
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE','OPTIONS']
             allow_credentials: true
