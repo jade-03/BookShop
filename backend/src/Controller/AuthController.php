@@ -71,7 +71,7 @@ final class AuthController extends AbstractController
             Cookie::create('JWT_TOKEN', $token)
                 ->withHttpOnly(true)
                 ->withPath('/')
-                ->withSameSite('lax')
+                ->withSameSite('none')
         );
 
         return $response;
