@@ -17,7 +17,7 @@ import { Message } from '../interfaces/message';
 })
 export class ApiService {
   private http = inject(HttpClient);
-  private url = 'http://localhost:8000/api';
+  private url = 'https://backend-xx28.onrender.com/api';
 
   getBooks() {
     return this.http.get<Book[]>(`${this.url}/books`);

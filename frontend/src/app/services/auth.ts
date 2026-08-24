@@ -10,7 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class Auth {
   private http = inject(HttpClient);
-  private url = 'http://localhost:8000/api';
+  private url = 'https://backend-xx28.onrender.com/api';
   private _currentUser = signal<User | null>(null);
   currentUser = this._currentUser.asReadonly();
   isConnected = computed(() => this.currentUser() !== null);
