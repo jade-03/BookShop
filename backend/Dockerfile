@@ -45,7 +45,7 @@ WORKDIR /var/www/symfony
 COPY . .
 
 # Installer dépendances Symfony
-RUN composer install --no-interaction --prefer-dist
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Permissions Symfony
 RUN chown -R www-data:www-data /var/www/symfony
