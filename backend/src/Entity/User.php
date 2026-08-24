@@ -14,6 +14,7 @@ use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: 'users')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[Vich\Uploadable]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
