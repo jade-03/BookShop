@@ -56,7 +56,9 @@ npm install
 ng serve
 ```
 
-L'application Angular est accessible sur `http://localhost:4200`.
+L'application Angular est accessible sur `[BookShop](https://bookshop-cer0.onrender.com
+
+)`.
 
 ---
 
