@@ -56,9 +56,7 @@ npm install
 ng serve
 ```
 
-L'application Angular est accessible sur `[BookShop](https://bookshop-cer0.onrender.com
-
-)`.
+L'application Angular est accessible sur `https://bookshop-cer0.onrender.com`.
 
 ---
 
