@@ -187,15 +187,9 @@
 /* Books grid */
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-@media (min-width: 992px) {
-  .books-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-  }
+  grid-template-columns: repeat(auto-fit, 250px);
+  justify-content: center;
+  gap: 1.5rem;
 }
 
 .book-card-item {

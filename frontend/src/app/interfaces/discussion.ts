@@ -1,8 +1,11 @@
+import { Listing } from "./listing";
 import { Message } from "./message";
 import { User } from "./user";
 
 export interface Discussion {
-  user: User;
+  id: number
   lastMessage: string;
   date: string;
+  user: User;
+  listing: Listing
 }

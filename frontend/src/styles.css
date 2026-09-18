@@ -7,26 +7,16 @@
   box-sizing: border-box;
 }
 
-:root {
-  --primary: #2c5aa0;
-  --primary-light: #5998df44;
-  --muted-foreground: #6c757d;
-  --border: #dee2e6;
-  --destructive: #dc3545;
-  --background: #f8f9fa;
-  --card-bg: #ffffff;
-  --muted: #6c757d;
-  --text-dark: #1f2937;
-  --text-muted: #6b7280;
-  
+
+
+html, body{
+  height:100%;
+  margin:0;
 }
 
-html,
-body {
-  height: 100vh;
-  overflow-x: hidden;
-  flex-direction: column;
-  background-color: #F4F4F4;
+app-root{
+  display:block;        /* rend la hauteur applicable */
+  height:100%;          /* prend toute la hauteur du body */
 }
 
 ul,

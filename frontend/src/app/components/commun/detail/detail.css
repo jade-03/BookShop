@@ -195,15 +195,38 @@
   background: #0b5ed7;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
   .card-body {
     flex-direction: column;
   }
 
   .cover-wrapper {
-    flex: 0 0 auto;
-    max-width: 220px;
-    margin: 0 auto;
+    width: auto;
+  }
+
+  .cover{
+    height: 100%;
+  }
+
+ 
+
+  .seller-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .seller-left {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 500px) {
+  .card-body {
+    flex-direction: column;
+  }
+
+  .cover-wrapper {
+    width: auto;
   }
 
   .seller-card {

@@ -14,80 +14,44 @@ import { Discussion } from '../../interfaces/discussion';
 
 export class Messages {
   private messageService = inject(ApiService);
-  private router = inject(Router);
-  
 
   discussions = signal<Discussion[]>([]);
   loading = signal(true);
   error = signal<string | null>(null);
+  activeId = signal<number | null>(null);
 
   ngOnInit(): void {
+    const savedId = localStorage.getItem('activeChatId')
+    if (savedId) {
+      const idNumerique = Number(savedId);
+      this.activeId.set(idNumerique);
+    
+    }
     this.messageService.getMyMessages().subscribe((message: any) => {
       this.discussions.set(message);
     })
   }
 
-  // loadConversations(): void {
-  //   this.messageService.getMyMessages().subscribe({
-  //     next: (messages: any[]) => {
+  selectConversation(c: number) {
+    this.activeId.set(c);
 
-  //       const currentUserId = this.getCurrentUserId();
-  //       const conversationsMap = new Map<number, Conversation>();
-
-  //       discussion.forEach(msg => {
-
-  //         const otherUser =
-  //           msg.sender.id === currentUserId
-  //             ? msg.receiver
-  //             : msg.sender;
-
-  //         const existing = conversationsMap.get(otherUser.id);
-
-  //         if (!existing) {
-
-  //           conversationsMap.set(otherUser.id, {
-  //             userId: otherUser.id,
-  //             userPseudo: otherUser.pseudo,
-  //             lastMessage: msg.content,
-  //             lastMessageDate: msg.sendAt,
-  //           });
-
-  //         } else if (
-  //           new Date(msg.sendAt) >
-  //           new Date(existing.lastMessageDate)
-  //         ) {
-
-  //           existing.lastMessage = msg.content;
-  //           existing.lastMessageDate = msg.sendAt;
-  //         }
-  //       });
-
-  //       this.conversations.set(
-  //         Array.from(conversationsMap.values()).sort(
-  //           (a, b) =>
-  //             new Date(b.lastMessageDate).getTime() -
-  //             new Date(a.lastMessageDate).getTime()
-  //         )
-  //       );
-
-  //       this.loading.set(false);
-  //     },
-  //     error: () => {
-  //       this.error.set('Erreur lors du chargement des conversations');
-  //       this.loading.set(false);
-  //     }
-  //   });
-  // }
-
-  getInitials(name: string): string {
-    return name?.charAt(0).toUpperCase() ?? '?';
+    localStorage.setItem('activeChatId', c.toString())
   }
 
-  // private getCurrentUserId(): number {
-  //   const user = localStorage.getItem('user');
+  getInitials(pseudo: string): string {
+  if (!pseudo) return '?';
 
-  //   if (!user) return 0;
+  const cleaned = pseudo.replace(/[0-9_\-]+$/g, '').trim();
 
-  //   return JSON.parse(user).id;
-  // }
+  const parts = cleaned
+    .replace(/([a-z])([A-Z])/g, '$1 $2')   // "MarieD" → "Marie D"
+    .split(/\s+/)
+    .filter(Boolean);
+
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+
+  return cleaned.slice(0, 2).toUpperCase();
+}
 }

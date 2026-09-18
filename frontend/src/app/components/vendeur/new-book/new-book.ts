@@ -94,12 +94,47 @@ export class NewBook {
 
   onFrontCoverSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
+
+    this.frontCoverTouched = true;
+    this.frontCoverError = null;
+
     if (input.files && input.files[0]) {
-        this.frontCoverFile = input.files[0];
-        
-    } else {
-        console.error('❌ Aucun fichier recto sélectionné');
+      const file = input.files[0];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+      // Validation taille
+      if (file.size > maxSize) {
+        this.frontCoverError = 'Le fichier ne doit pas dépasser 5 Mo';
         this.frontCoverFile = null;
+        return;
+      }
+
+      // Validation type
+      if (!allowedTypes.includes(file.type)) {
+        this.frontCoverError = 'Format accepté : JPG, PNG, WEBP';
+        this.frontCoverFile = null;
+        return;
+      }
+
+      this.frontCoverFile = file;
+      console.log(
+        '✅ Fichier verso stocké:',
+        this.frontCoverFile.name,
+        this.frontCoverFile.size,
+        'bytes',
+      );
+
+      // Aperçu
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.frontCoverPreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.frontCoverFile);
+    } else {
+      console.error('❌ Aucun fichier verso sélectionné');
+      this.frontCoverFile = null;
+      this.frontCoverPreview = null;
     }
 }
 
@@ -314,237 +349,5 @@ export class NewBook {
         alert('Fichier sélectionné: ' + input.files[0].name);
     }
 }
-//   private serviceBook = inject(ApiService);
-//   private fb = inject(FormBuilder);
-//   private router = inject(Router);
 
-//   books = signal<Book[]>([]);
-//   categories = signal<Category[]>([]);
-//   selectBook = signal<Book | GoogleBook | null>(null);
-
-//   Book_Condition = BookCondition;
-//   bookConditionOptions = OptionCondition;
-
-//   frontCoverFile: File | null = null;
-//   backCoverFile: File | null = null;
-//   frontCoverPreview: string | null = null;
-//   backCoverPreview: string | null = null;
-
-//   // Ajout d'un signal pour le chargement
-//   isSearching = signal<boolean>(false);
-//   searchError = signal<string | null>(null);
-//   // Pour la validation des images
-// frontCoverError: string | null = null;
-// frontCoverTouched = false;
-// backCoverError: string | null = null;
-// backCoverTouched = false;
-
-
-
-
-// // Méthode pour vérifier si le formulaire est valide
-// isFormValid(): boolean {
-//   return this.listingForm.valid && 
-//          !this.frontCoverError && this.frontCoverFile !== null &&
-//          !this.backCoverError && this.backCoverFile !== null;
-// }
-
-//   isModalOpen = true;
-
-//   notify: boolean = false;
-//   notification = {
-//     message: '',
-//     position: '',
-//     icon: '',
-//     alertClass: '',
-//     duration: 2000,
-//   };
-
-//   triggerNotify(customNotify: any) {
-//     this.notification = {
-//       ...customNotify,
-//     };
-
-//     this.notify = true;
-
-//     setTimeout(() => {
-//       this.notify = false;
-//     }, 3000);
-//   }
-
-//   listingForm: FormGroup = this.fb.group({
-//     title: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-//     isbn: ['', [Validators.required]],
-//     book_condition: [BookCondition.Good, [Validators.required]],
-//     price: ['', [Validators.required]],
-//     language: ['', [Validators.required]],
-//     statut: [StatusListing.For_Sale, [Validators.required]],
-//     category: [''],
-//   });
-
-//   ngOnInit() {
-//     forkJoin({
-//       book: this.serviceBook.getBooks(),
-//       category: this.serviceBook.getCategories(),
-//     }).subscribe({
-//       next: ({ book, category }) => {
-//         this.books.set(book);
-//         this.categories.set(category);
-//         this.triggerNotify({
-//           message: 'Livre créer avec succès',
-//           position: 'alertPosition',
-//           icon: 'bi bi-check-circle-fill',
-//           alertClass: 'alert alert-success',
-//         });
-//       },
-//       error: (err) => {
-//         console.error('❌ Erreur chargement:', err);
-//         this.searchError.set('Erreur lors du chargement des données');
-//       },
-//     });
-//   }
-//   onSubmit(event: Event) {
-//     event.preventDefault();
-//     const formData = new FormData()
-
-//     formData.append(
-//       'data',
-//       JSON.stringify({
-//         title: this.listingForm.controls['title'].value,
-//       isbn: this.listingForm.controls['isbn'].value,
-//       book_condition: this.listingForm.controls['book_condition'].value,
-//       price: this.listingForm.controls['price'].value,
-//       language: this.listingForm.controls['language'].value,
-//       statut: this.listingForm.controls['statut'].value,
-//       category: Number(this.listingForm.controls['category'].value),
-      
-//       })
-//     )
-    
-
-//     this.serviceBook.postListing(formData).subscribe({
-//       next: () => {
-//         this.triggerNotify({
-//           message: 'Votre annonce créer avec succès',
-//           position: 'alertPosition',
-//           icon: 'bi bi-check-circle-fill',
-//           alertClass: 'alert alert-success',
-//         });
-//         setTimeout(() => {
-//           this.closeModalAndRedirect();
-//         }, 2000);
-//       },
-//       error(err) {
-//         alert('Error -' + err.error);
-//         console.log('ERREUR:' + err);
-//       },
-//     });
-//   }
-
-//   searchBook(isbn: string) {
-//     this.serviceBook.searchBookByIsbn(isbn).subscribe((response) => {
-//       if (response && response.isbn) {
-//         this.selectBook.set(response);
-
-//         // ✅ Mettre à jour le formulaire avec patchValue
-//         this.listingForm.patchValue({
-//           isbn: response.isbn,
-//         });
-//       }
-//     });
-//   }
-
-//   getBookTitle(book: Book | GoogleBook | null): string {
-//     return book?.title || 'Titre inconnu';
-//   }
-
-//   getBookAuthor(book: Book | GoogleBook | null): string {
-//     if (!book) return '';
-
-//     const anyBook = book as any;
-
-//     // Essaie différents chemins possibles pour l'auteur
-//     const author =
-//       anyBook?.author?.name ?? // Ton format actuel
-//       anyBook?.author ?? // String simple
-//       anyBook?.authors; // Tableau d'auteurs
-
-//     if (!author) {
-//       return 'Auteur inconnu';
-//     }
-
-//     // Si c'est un tableau, joint les noms
-//     if (Array.isArray(author)) {
-//       return author.join(', ');
-//     }
-
-//     // Si c'est une string, retourne directement
-//     return author;
-//   }
-
-//   onFrontCoverSelected(event: Event): void {
-//   this.frontCoverTouched = true;
-//   const input = event.target as HTMLInputElement;
-  
-//   if (input.files && input.files[0]) {
-//     const file = input.files[0];
-//     const maxSize = 5 * 1024 * 1024; // 5MB
-//     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    
-//     if (!allowedTypes.includes(file.type)) {
-//       this.frontCoverError = 'Format non supporté. Utilisez JPG, PNG ou WEBP';
-//       this.frontCoverFile = null;
-//       this.frontCoverPreview = null;
-//       return;
-//     }
-    
-//     if (file.size > maxSize) {
-//       this.frontCoverError = 'L\'image ne doit pas dépasser 5MB';
-//       this.frontCoverFile = null;
-//       this.frontCoverPreview = null;
-//       return;
-//     }
-    
-//     this.frontCoverError = null;
-//     this.frontCoverFile = file;
-    
-//     // Aperçu
-//     const reader = new FileReader();
-//     reader.onload = () => {
-//       this.frontCoverPreview = reader.result as string;
-//     };
-//     reader.readAsDataURL(file);
-//   } else {
-//     this.frontCoverError = 'La photo recto est requise';
-//     this.frontCoverFile = null;
-//     this.frontCoverPreview = null;
-//   }
-// }
-
-// // ✅ Gérer la sélection du fichier verso
-// onBackCoverSelected(event: Event): void {
-//     const input = event.target as HTMLInputElement;
-//     if (input.files && input.files[0]) {
-//         this.backCoverFile = input.files[0];
-        
-//         // Aperçu
-//         const reader = new FileReader();
-//         reader.onload = () => {
-//             this.backCoverPreview = reader.result as string;
-//         };
-//         reader.readAsDataURL(this.backCoverFile);
-//     }
-//   }
-
-//   getAuthorName(author: any): string {
-//     if (!author) return 'Auteur inconnu';
-//     if (Array.isArray(author.name)) return author.name.join(', ');
-//     if (typeof author.name === 'string') return author.name;
-//     return 'Auteur inconnu';
-//   }
-
-//   private closeModalAndRedirect() {
-//     this.isModalOpen = false;
-//     this.router.navigate(['/catalogue']);
-//   }
 }

@@ -22,19 +22,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['getUser', 'getListing', 'getMessages'])]
+    #[Groups(['getUser', 'getListing', 'getMessages', 'getConversations'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['getUser'])]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['getUser'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 30, unique: true, nullable: true)]
-    #[Groups(['getUser', 'getListing', 'getMessages'])]
+    #[Groups(['getUser', 'getListing', 'getMessages', 'getConversations'])]
     private ?string $pseudo = null;
 
     #[ORM\Column(length: 180)]

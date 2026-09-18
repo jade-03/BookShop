@@ -47,14 +47,6 @@
         } @else {
         <p class="text-muted small mb-4">{{ usersProfil()?.firstname }} {{ usersProfil()?.lastname }}</p>
         }
-        <div class="alert alert-info">
-          <strong>Debug :</strong>
-          <pre>role = "{{ usersProfil()?.role }}"</pre>
-          <pre>Longueur : {{ usersProfil()?.role?.length }}</pre>
-          <pre>Type : {{ typeof usersProfil()?.role }}</pre>
-          <pre>Comparaison : {{ usersProfil()?.role === 'ROLE_ADMIN' }}</pre>
-          <p>Role : {{ usersProfil()?.role }}</p>
-        </div>
 
         @if (isNotAdmin()) {
         <!-- Stats -->

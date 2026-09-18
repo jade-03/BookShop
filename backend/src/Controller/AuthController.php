@@ -68,10 +68,12 @@ final class AuthController extends AbstractController
         ], Response::HTTP_CREATED, [], ['groups' => 'getUser']);
 
         $response->headers->setCookie(
-            Cookie::create('JWT_TOKEN', $token)
+            Cookie::create('JWT_TOKEN')
+                ->withValue($token)
                 ->withHttpOnly(true)
-                ->withPath('/')
+                ->withSecure(true)
                 ->withSameSite('none')
+                ->withPath('/')
         );
 
         return $response;
@@ -142,7 +144,15 @@ final class AuthController extends AbstractController
             'message' => 'Déconnexion réussie'
         ]);
 
-        $response->headers->clearCookie('JWT_TOKEN', '/', null);
+        $response->headers->setCookie(
+    Cookie::create('JWT_TOKEN')
+        ->withValue('')
+        ->withHttpOnly(true)
+        ->withSecure(true)
+        ->withSameSite('none')
+        ->withPath('/')
+        ->withExpires(new \DateTimeImmutable('@0'))
+);
 
         return $response;
     }

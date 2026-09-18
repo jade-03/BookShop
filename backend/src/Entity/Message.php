@@ -31,8 +31,13 @@ class Message
 
     #[ORM\ManyToOne(inversedBy: 'receivedMessages')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['getMessages'])]
+    #[Groups(['getMessages', 'getConversations'])]
     private ?User $receiver = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['getConversations'])]
+    private ?Listing $listing = null;
 
     public function getId(): ?int
     {
@@ -83,6 +88,18 @@ class Message
     public function setReceiver(?User $receiver): static
     {
         $this->receiver = $receiver;
+
+        return $this;
+    }
+
+    public function getListing(): ?Listing
+    {
+        return $this->listing;
+    }
+
+    public function setListing(?Listing $listing): static
+    {
+        $this->listing = $listing;
 
         return $this;
     }

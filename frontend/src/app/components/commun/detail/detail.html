@@ -69,7 +69,7 @@
                     <button [routerLink]="['/profil', listing.user.id]">Profil</button>
                 </div>
                 <div class="actions">
-                    <button class="btn contact" [routerLink]="['/messageries/message/', listing.user.id]" (click)="onCreate()">
+                    <button class="btn contact" [routerLink]="['/messageries/conversation/', listing.user.id, listing.id]" (click)="onCreate()">
                         Contacter
                     </button>
                     <button class="btn btn-primary">

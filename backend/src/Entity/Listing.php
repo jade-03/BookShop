@@ -18,11 +18,11 @@ class Listing
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['getListing'])]
+    #[Groups(['getListing', 'getConversations'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['getListing'])]
+    #[Groups(['getListing', 'getConversations'])]
     private ?string $title = null;
 
     #[ORM\Column(enumType: BookCondition::class)]

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Listing;
 use App\Entity\Message;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -20,6 +21,9 @@ class MessageRepository extends ServiceEntityRepository
     public function findConversationsByUser(User $user): array
 {
     $messages = $this->createQueryBuilder('m')
+        ->leftJoin('m.listing', 'b')->addSelect('b')
+        ->leftJoin('m.sender', 's')->addSelect('s')
+        ->leftJoin('m.receiver', 'r')->addSelect('r')
         ->where('m.sender = :user OR m.receiver = :user')
         ->setParameter('user', $user)
         ->orderBy('m.send_at', 'DESC')
@@ -29,16 +33,16 @@ class MessageRepository extends ServiceEntityRepository
     $conversations = [];
 
     foreach ($messages as $message) {
-
         $otherUser = $message->getSender()->getId() === $user->getId()
             ? $message->getReceiver()
             : $message->getSender();
 
-        $id = $otherUser->getId();
+        $key = $otherUser->getId() . '-' . $message->getListing()->getId();
 
-        if (!isset($conversations[$id])) {
-            $conversations[$id] = [
+        if (!isset($conversations[$key])) {
+            $conversations[$key] = [
                 'user' => $otherUser,
+                'listing' => $message->getListing(),
                 'lastMessage' => $message->getContent(),
                 'date' => $message->getSendAt(),
             ];
@@ -47,16 +51,21 @@ class MessageRepository extends ServiceEntityRepository
 
     return array_values($conversations);
 }
-    public function findConversation(User $user1, User $user2): array
+    public function findConversation(User $user1, User $user2, Listing $listing): array
     {
         return $this->createQueryBuilder('m')
-            ->where('(m.sender = :user1 AND m.receiver = :user2)')
-            ->orWhere('(m.sender = :user2 AND m.receiver = :user1)')
-            ->setParameter('user1', $user1)
-            ->setParameter('user2', $user2)
-            ->orderBy('m.send_at', 'ASC')
-            ->getQuery()
-            ->getResult();
+        ->leftJoin('m.sender', 's')->addSelect('s')
+        ->leftJoin('m.receiver', 'r')->addSelect('r')
+        ->where('m.listing = :listing')
+        ->andWhere(
+            '(m.sender = :user1 AND m.receiver = :user2) OR (m.sender = :user2 AND m.receiver = :user1)'
+        )
+        ->setParameter('listing', $listing)
+        ->setParameter('user1', $user1)
+        ->setParameter('user2', $user2)
+        ->orderBy('m.send_at', 'ASC')
+        ->getQuery()
+        ->getResult();
     }
 
     //    /**

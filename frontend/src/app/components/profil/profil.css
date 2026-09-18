@@ -1,30 +1,30 @@
 
 .bg-background {
-            background-color: var(--background);
+            background-color: #f8f9fa;
         }
 
         .bg-card {
-            background-color: var(--card-bg);
+            background-color: white;
         }
 
         .text-primary {
-            color: var(--primary) !important;
+            color:  #2c5aa0 !important;
         }
 
         .bg-primary-light {
-            background-color: var(--primary-light);
+            background-color: #5998df44;
         }
 
         .text-muted-foreground {
-            color: var(--muted-foreground) !important;
+            color: #6c757d !important;
         }
 
         .border-border {
-            border-color: var(--border) !important;
+            border-color: #dee2e6 !important;
         }
 
         .text-destructive {
-            color: var(--destructive) !important;
+            color: #dc3545 !important;
         }
 
         .hover-bg-muted:hover {
@@ -33,9 +33,9 @@
 
         /* Cards personnalisées */
         .custom-card {
-            background: var(--card-bg);
+            background: white;
             border-radius: 1rem;
-            border: 1px solid var(--border);
+            border: 1px solid #dee2e6;
             transition: all 0.2s ease;
             cursor: pointer;
         }
@@ -49,7 +49,7 @@
             width: 96px;
             height: 96px;
             border-radius: 50%;
-            background-color: var(--primary-light);
+            background-color: #5998df44;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -58,7 +58,7 @@
 
         .avatar span {
             font-size: 2.5rem;
-            color: var(--primary);
+            color:  #2c5aa0;
             font-weight: 500;
         }
 
@@ -74,8 +74,8 @@
 
         /* Bouton déconnexion */
         .btn-logout {
-            border: 1px solid var(--destructive);
-            color: var(--destructive);
+            border: 1px solid #dc3545;
+            color: #dc3545;
             background: transparent;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
@@ -83,14 +83,14 @@
         }
 
         .btn-logout:hover {
-            background-color: var(--destructive);
+            background-color: #dc3545;
             color: white;
         }
 
         /* Separator */
         .custom-separator {
             height: 1px;
-            background-color: var(--border);
+            background-color: #dee2e6;
             margin: 2rem 0;
         }
 
@@ -99,8 +99,8 @@
             position: sticky;
             top: 0;
             z-index: 40;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--border);
+            background-color: white;
+            border-bottom: 1px solid #dee2e6;
         }
 
         /* Étoiles pour la note */

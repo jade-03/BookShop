@@ -3,14 +3,15 @@ import { LoginUser } from '../interfaces/login-user';
 import { HttpClient } from '@angular/common/http';
 import { NewUser, User } from '../interfaces/user';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
-import { JwtHelperService } from '@auth0/angular-jwt';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
   private http = inject(HttpClient);
-  private url = 'https://backend-xx28.onrender.com/api';
+  private url = 'http://127.0.0.1:8000/api';
+  // private url = 'https://backend-xx28.onrender.com/api';
   private _currentUser = signal<User | null>(null);
   currentUser = this._currentUser.asReadonly();
   isConnected = computed(() => this.currentUser() !== null);

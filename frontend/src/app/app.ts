@@ -13,14 +13,7 @@ export class App {
 
   authService = inject(Auth);
   private router = inject(Router);
- 
-  ngOnInit() {
-    // Vérification explicite
-    this.authService.profile().subscribe({
-      next: (user) => console.log('✅ Appel profil réussi', user),
-      error: (err) => console.log('❌ Erreur profil', err)
-    });
-  }
+
   logout() {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/catalogue']);

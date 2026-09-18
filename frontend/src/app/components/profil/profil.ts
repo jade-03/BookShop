@@ -37,10 +37,6 @@ export class Profil {
  isNotAdmin = computed(() => {
     const user = this.usersProfil();
     if (!user) return false;
-    // Nettoyer la chaîne
-  console.log('user:', user);
-console.log('role:', user.role);
-console.log('type:', typeof user.role);  
   return user.role !== 'ROLE_ADMIN';
   });
 
@@ -72,25 +68,20 @@ console.log('type:', typeof user.role);
   private checkProfil(userId: number) {
     this.loading.set(true);
 
-    // ✅ Vérifier si l'utilisateur est connecté
     this.authService.profile().subscribe({
       next: (currentUser) => {
-        // ✅ Si c'est MON profil
         if (currentUser.id === userId) {
           this.isOwnProfile.set(true);
           this.users.set(currentUser);
           this.usersProfil.set(currentUser);
           this.loading.set(false);
-          console.log('✅ Mon profil (via ID)');
         }
-        // ✅ Si c'est le profil d'un AUTRE
         else {
           this.isOwnProfile.set(false);
           this.publicProfil(userId);
         }
       },
       error: () => {
-        // ❌ Non connecté -> charger profil public
         this.isOwnProfile.set(false);
         this.publicProfil(userId);
       },
@@ -101,7 +92,7 @@ console.log('type:', typeof user.role);
     this.authService.profileByUser(userId).subscribe({
       next: (data) => {
         this.usersProfil.set(data);
-        this.users.set(null); // Pas d'utilisateur connecté
+        this.users.set(null);
         this.loading.set(false);
       },
       error: (err) => {

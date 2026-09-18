@@ -17,7 +17,8 @@ import { Message } from '../interfaces/message';
 })
 export class ApiService {
   private http = inject(HttpClient);
-  private url = 'https://backend-xx28.onrender.com/api';
+  private url = 'http://127.0.0.1:8000/api';
+  // private url = 'https://backend-xx28.onrender.com/api';
 
   getBooks() {
     return this.http.get<Book[]>(`${this.url}/books`);
@@ -95,20 +96,23 @@ export class ApiService {
   }
 
   getMyMessages() {
-    return this.http.get<Discussion[]>(`${this.url}/conversations/me`, {
-      withCredentials: true,
-    });
-  }
+  return this.http.get<Discussion[]>(`${this.url}/conversations/me`,{
+    withCredentials: true
+  });
+}
 
-  getConversation(receiverId: number) {
-    return this.http.get<Message[]>(`${this.url}/conversation/${receiverId}`, {
-      withCredentials: true,
-    });
-  }
+getConversation(userId: number, listingId: number) {
+  return this.http.get<Message[]>(`${this.url}/conversation/${userId}/${listingId}`, {
+    withCredentials:true
+  });
+}
 
-  postConversation(receiverId: number, formMessage: SendMessage){
-    return this.http.post<Message>(`${this.url}/conversation/${receiverId}`, formMessage, {
-      withCredentials: true,
-    });
-  }
+sendMessage(userId: number, listingId: number, content: string) {
+  return this.http.post<Message>(
+    `${this.url}/conversation/${userId}/${listingId}`,
+    { content } satisfies SendMessage,{
+      withCredentials:true
+    }
+  );
+}
 }

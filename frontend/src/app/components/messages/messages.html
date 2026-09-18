@@ -1,38 +1,36 @@
-<section class="messageries">
-    <div class="container">
+<div class="app">
+  <div class="layout" >
 
-        <h2>Mes conversations</h2>
-        <div class="conversation-list">
-
-            @for(conv of discussions(); track conv.user) {
-
-            <div class="conversation-card" [routerLink]="['/messageries/message/', conv.user.id]">
-
-
-                <div class="avatar">
-                    {{ getInitials(conv.user.pseudo) }}
-                </div>
-
-                <div class="conversation-content">
-
-                    <div class="header">
-                        <strong>{{ conv.user.pseudo }}</strong>
-                    </div>
-
-                    <p class="message-preview">
-                        {{ conv.lastMessage }}
-                    </p>
-
-                </div>
-
+    <!-- Sidebar : liste des conversations -->
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <h1>Mes conversations</h1>
+        <input class="search" type="text" placeholder="Rechercher une conversation">
+      </div>
+      <div class="conv-list" id="convList">
+        @for (conv of discussions(); track conv.date) {
+          <div class="conv"
+               routerLinkActive="active"
+               (click)="selectConversation(conv.user.id)"
+               [routerLink]="['/messageries/conversation', conv.user.id, conv.listing.id]">
+            <div class="avatar">
+              {{ getInitials(conv.user.pseudo) }}
             </div>
+            <div class="conv-body">
+              <div class="conv-top">
+                <span class="conv-name">{{ conv.user.pseudo }}</span>
+              </div>
+              <p class="conv-snippet">{{ conv.lastMessage }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </aside>
 
-            }
+    <!-- Zone de chat -->
+    <section class="chat">
+      <router-outlet></router-outlet>
+    </section>
 
-        </div>
-
-    </div>
-    <div class="conversation">
-        <router-outlet />
-    </div>
-</section>
+  </div>
+</div>

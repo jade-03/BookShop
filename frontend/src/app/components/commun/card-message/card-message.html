@@ -1,6 +1,6 @@
-<div class="container-card">
-    <div class="card">
-    <p>{{cardMessage().content}}</p>
-</div>
-<span class="date">{{cardMessage().send_at | date: 'hh:mm'}}</span>
+<div class="bubble-row" [class.me]="isMe()" [class.them]="!isMe()">
+  <div class="bubble">
+    <p>{{ cardMessage().content }}</p>
+    <span class="bubble-time">{{ getFormattedTime(cardMessage().send_at) }}</span>
+  </div>
 </div>
